@@ -1,30 +1,34 @@
-# TASK:
-# (1) A person should implement the class
-# (2) Another person should document the code and type hint the methods.
-
-# NOTE: You can decide the implementation details
-
+from typing import List, Any
 
 class Grid:
-    def __init__(self): ...
+    def __init__(self, rows: int = 5, cols: int = 5):
+        self._rows = rows
+        self._cols = cols
+        # Initialize with empty strings or dots for visual clarity
+        self._grid = [[" " for _ in range(cols)] for _ in range(rows)]
 
-    def set_cell(self, i, j): ...
+    def set_cell(self, i: int, j: int, value: Any) -> None:
+        if 0 <= i < self._rows and 0 <= j < self._cols:
+            self._grid[i][j] = value
 
-    def clear_cell(self, i, j): ...
+    def clear_cell(self, i: int, j: int) -> None:
+        self.set_cell(i, j, " ")
 
-    def clear_board(self): ...
-
-    @property
-    def is_empty(self): ...
-
-    @property
-    def is_filled(self): ...
-
-    @property
-    def grid(self): ...
-
-    @property
-    def row_count(self): ...
+    def clear_board(self) -> None:
+        self._grid = [[" " for _ in range(self._cols)] for _ in range(self._rows)]
 
     @property
-    def column_count(self): ...
+    def is_empty(self) -> bool:
+        return all(cell == " " for row in self._grid for cell in row)
+
+    @property
+    def grid(self) -> List[List[Any]]:
+        return self._grid
+
+    @property
+    def row_count(self) -> int:
+        return self._rows
+
+    @property
+    def column_count(self) -> int:
+        return self._cols
